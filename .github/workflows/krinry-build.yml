@@ -61,6 +61,10 @@ jobs:
             flutter build appbundle --$BUILD_TYPE
           fi
 
+      - name: Find APK
+        if: always()
+        run: find build/ -name "*.apk" 2>/dev/null || echo "No APK found"
+
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
@@ -68,3 +72,4 @@ jobs:
           path: |
             build/app/outputs/flutter-apk/*.apk
             build/app/outputs/bundle/**/*.aab
+          if-no-files-found: warn
